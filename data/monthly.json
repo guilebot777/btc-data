@@ -1,6 +1,6 @@
 {
  "source": "Bitstamp BTC/USD daily OHLC (UTC). return_pct = month close / month open - 1",
- "updated_utc": "2026-09-30T00:00:00Z",
+ "updated_utc": "2026-09-30T03:15:48Z",
  "months": [
   {
    "month": "2012-01",
@@ -1237,8 +1237,8 @@
   {
    "month": "2026-09",
    "open": 78571.18,
-   "close": 83341.36,
-   "return_pct": 6.07,
+   "close": 83290.56,
+   "return_pct": 6.01,
    "partial": true
   }
  ]
