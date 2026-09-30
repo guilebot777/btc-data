@@ -4,7 +4,10 @@
  * データは window.BTCS_DATA があればそれを、なければ jsDelivr の monthly.json を使う。
  */
 (function () {
-  var DATA_URL = "https://cdn.jsdelivr.net/gh/guilebot777/btc-data@main/data/monthly.json";
+  var DATA_URLS = [
+    "https://cdn.jsdelivr.net/gh/guilebot777/btc-data@main/data/monthly.json",
+    "https://raw.githubusercontent.com/guilebot777/btc-data/main/data/monthly.json"
+  ];
   var FIRST_YEAR = 2013;
   var HALVING_BASE = 2012; // 2012, 2016, 2020, 2024 ...
   var STORE_KEY = "btcs-lang";
@@ -171,6 +174,9 @@
     ".btcs *{box-sizing:border-box}",
     ".btcs .btcs-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px 16px;margin-bottom:16px}",
     ".btcs .btcs-head>div{min-width:0;flex:1 1 320px}",
+    ".btcs .btcs-brand{display:inline-block;font-size:13px;font-weight:700;color:var(--navy);letter-spacing:.08em;margin:0 0 14px;text-decoration:none}",
+    ".btcs .btcs-brand:hover{text-decoration:underline}",
+    ".btcs h1{font-size:clamp(24px,4vw,34px);line-height:1.3;font-weight:800;color:var(--navy);margin:0 0 8px;text-wrap:balance}",
     ".btcs h2{font-size:22px;font-weight:700;color:var(--navy);margin:0 0 4px;text-wrap:balance}",
     ".btcs h3{font-size:15px;font-weight:700;color:var(--navy);margin:0;letter-spacing:.02em}",
     ".btcs .btcs-sub{color:var(--muted);font-size:13px;margin:0}",
@@ -306,8 +312,10 @@
       var langOpts = LANGS.map(function (k) {
         return "<option value='" + k + "'" + (k === state.lang ? " selected" : "") + ">" + I18N[k].name + "</option>";
       }).join("");
+      var asPage = root.hasAttribute("data-page"), hTag = asPage ? "h1" : "h2";
       root.innerHTML =
-        "<div class='btcs-head'><div><h2>" + esc(t.title) + "</h2><p class='btcs-sub'>" + esc(t.sub) + "</p></div>" +
+        "<div class='btcs-head'><div>" + (asPage ? "<a class='btcs-brand' href='https://cocosta.jp/'>COCOSTA</a>" : "") +
+        "<" + hTag + ">" + esc(t.title) + "</" + hTag + "><p class='btcs-sub'>" + esc(t.sub) + "</p></div>" +
         "<label class='btcs-lang' for='btcs-lang'><svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='9'/><path d='M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z'/></svg>" +
         "<select id='btcs-lang' aria-label='Language'>" + langOpts + "</select></label></div>" +
         "<div class='btcs-tiles'></div>" +
@@ -362,6 +370,7 @@
       $(".btcs-foot").textContent = tpl(t.foot, { t: when });
 
       render();
+      try { root.dispatchEvent(new CustomEvent("btcs:lang", { bubbles: true, detail: { lang: state.lang } })); } catch (e) {}
     }
 
     function render() {
@@ -480,8 +489,12 @@
     var lang = pickLang(root);
     if (window.BTCS_DATA) { build(root, window.BTCS_DATA, lang); return; }
     root.textContent = I18N[lang].loading;
-    fetch(DATA_URL).then(function (r) { return r.json(); }).then(function (d) { build(root, d, lang); })
-      .catch(function () { root.textContent = I18N[lang].error; });
+    // jsDelivr が落ちていたら GitHub から直接読む
+    (function load(i) {
+      fetch(DATA_URLS[i]).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (d) { build(root, d, lang); })
+        .catch(function () { if (i + 1 < DATA_URLS.length) load(i + 1); else root.textContent = I18N[lang].error; });
+    })(0);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
