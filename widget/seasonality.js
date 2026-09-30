@@ -11,6 +11,7 @@
   var FIRST_YEAR = 2013;
   var HALVING_BASE = 2012; // 2012, 2016, 2020, 2024 ...
   var STORE_KEY = "btcs-lang";
+  var PAGE_URL = "https://cocosta.jp/tools/btc-monthly-returns/";
 
   // ---------- 翻訳 ----------
   var I18N = {
@@ -29,6 +30,7 @@
       phases: ["半減期の年", "半減期の翌年", "半減期の2年後", "半減期の3年後"],
       presets: ["全期間", "直近4年", "直近8年", "今年と同じサイクル"],
       hl: "金色の列 = 今月、青の列 = 来月",
+      save: "画像で保存", post: "Xでポスト", latestShort: "最新", rangeSep: "〜", cardCond: "集計期間 {range} ・ {cycle}", cardLegend: "棒 = 中央値　下段 = 勝率", asOf: "{d}時点", shareText: "ビットコイン月別騰落率（{range}・{cycle}）",
       statsTitle: "選択期間の統計", breakdownTitle: "年別の内訳",
       year: "年", annual: "年間",
       rows: ["平均", "中央値", "勝率", "上昇月の平均", "下落月の平均", "最大", "最小", "サンプル数"],
@@ -53,6 +55,7 @@
       phases: ["Halving year", "1 year after halving", "2 years after halving", "3 years after halving"],
       presets: ["All", "Last 4 years", "Last 8 years", "Same cycle as this year"],
       hl: "Gold column = this month, blue column = next month",
+      save: "Save image", post: "Post on X", latestShort: "latest", rangeSep: "–", cardCond: "Period {range} · {cycle}", cardLegend: "Bars = median   Below = win rate", asOf: "as of {d}", shareText: "Bitcoin monthly returns ({range}, {cycle})",
       statsTitle: "Statistics for the selected period", breakdownTitle: "Breakdown by year",
       year: "Year", annual: "Annual",
       rows: ["Mean", "Median", "Win rate", "Avg. up month", "Avg. down month", "Best", "Worst", "Sample size"],
@@ -77,6 +80,7 @@
       phases: ["减半当年", "减半后第1年", "减半后第2年", "减半后第3年"],
       presets: ["全部期间", "近4年", "近8年", "与今年同周期"],
       hl: "金色列 = 本月，蓝色列 = 下月",
+      save: "保存图片", post: "分享到X", latestShort: "最新", rangeSep: "–", cardCond: "统计期间 {range} · {cycle}", cardLegend: "柱 = 中位数　下方 = 胜率", asOf: "截至{d}", shareText: "比特币月度涨跌幅（{range}・{cycle}）",
       statsTitle: "所选期间统计", breakdownTitle: "按年份明细",
       year: "年份", annual: "全年",
       rows: ["平均值", "中位数", "胜率", "上涨月平均", "下跌月平均", "最大", "最小", "样本数"],
@@ -101,6 +105,7 @@
       phases: ["減半當年", "減半後第1年", "減半後第2年", "減半後第3年"],
       presets: ["全部期間", "近4年", "近8年", "與今年同週期"],
       hl: "金色欄 = 本月，藍色欄 = 下個月",
+      save: "儲存圖片", post: "分享到X", latestShort: "最新", rangeSep: "–", cardCond: "統計期間 {range} · {cycle}", cardLegend: "長條 = 中位數　下方 = 勝率", asOf: "截至{d}", shareText: "比特幣月度漲跌幅（{range}・{cycle}）",
       statsTitle: "所選期間統計", breakdownTitle: "各年度明細",
       year: "年份", annual: "全年",
       rows: ["平均值", "中位數", "勝率", "上漲月平均", "下跌月平均", "最大", "最小", "樣本數"],
@@ -125,6 +130,7 @@
       phases: ["반감기 해", "반감기 1년 후", "반감기 2년 후", "반감기 3년 후"],
       presets: ["전체 기간", "최근 4년", "최근 8년", "올해와 같은 사이클"],
       hl: "금색 열 = 이번 달, 파란색 열 = 다음 달",
+      save: "이미지 저장", post: "X에 공유", latestShort: "최신", rangeSep: "–", cardCond: "집계 기간 {range} · {cycle}", cardLegend: "막대 = 중앙값   아래 = 승률", asOf: "{d} 기준", shareText: "비트코인 월별 수익률 ({range}, {cycle})",
       statsTitle: "선택 기간 통계", breakdownTitle: "연도별 상세",
       year: "연도", annual: "연간",
       rows: ["평균", "중앙값", "승률", "상승 월 평균", "하락 월 평균", "최대", "최소", "표본 수"],
@@ -149,6 +155,7 @@
       phases: ["Año del halving", "1 año tras el halving", "2 años tras el halving", "3 años tras el halving"],
       presets: ["Todo", "Últimos 4 años", "Últimos 8 años", "Mismo ciclo que este año"],
       hl: "Columna dorada = este mes, columna azul = próximo mes",
+      save: "Guardar imagen", post: "Publicar en X", latestShort: "último", rangeSep: "–", cardCond: "Periodo {range} · {cycle}", cardLegend: "Barras = mediana   Abajo = meses al alza", asOf: "a {d}", shareText: "Rentabilidad mensual de Bitcoin ({range}, {cycle})",
       statsTitle: "Estadísticas del periodo seleccionado", breakdownTitle: "Detalle por año",
       year: "Año", annual: "Anual",
       rows: ["Media", "Mediana", "Meses al alza", "Media meses al alza", "Media meses a la baja", "Máximo", "Mínimo", "Muestra"],
@@ -207,6 +214,12 @@
     ".btcs button:focus-visible,.btcs select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}",
     ".btcs .btcs-sec{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;margin:0 0 10px}",
     ".btcs .btcs-hl{font-size:15px;color:var(--muted)}",
+    ".btcs .btcs-acts{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px}",
+    ".btcs .btcs-acts button,.btcs .btcs-acts a{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:15px;font-weight:700;min-height:40px;padding:6px 14px;border-radius:6px;cursor:pointer;text-decoration:none}",
+    ".btcs .btcs-acts button{background:var(--navy);color:#fff;border:1.5px solid var(--navy)}",
+    ".btcs .btcs-acts a{background:#fff;color:var(--ink);border:1.5px solid #9AA5B1}",
+    ".btcs .btcs-acts svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}",
+    ".btcs .btcs-acts a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}",
     ".btcs .btcs-hl b{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin:0 4px 0 0}",
     // 2つの表は同じ列幅（固定レイアウト + 同じ最小幅 + 同じ枠）で縦に揃える
     ".btcs .btcs-scroll{overflow-x:auto;border:1px solid transparent;border-radius:8px}",
@@ -342,7 +355,9 @@
         "<label class='btcs-field' for='btcs-phase'>" + esc(t.cycle) + " <select id='btcs-phase'></select></label>" +
         "<div class='btcs-btns' role='group'></div></div>" +
         "<div class='btcs-sec'><h3>" + esc(t.statsTitle) + "</h3>" +
-        (nowMo ? "<span class='btcs-hl'><b style='background:#FFF6E0;box-shadow:inset 0 -3px 0 var(--gold)'></b><b style='background:#EAF2FA;box-shadow:inset 0 -3px 0 #7FB2E0'></b>" + esc(t.hl) + "</span>" : "") + "</div>" +
+        (nowMo ? "<span class='btcs-hl'><b style='background:#FFF6E0;box-shadow:inset 0 -3px 0 var(--gold)'></b><b style='background:#EAF2FA;box-shadow:inset 0 -3px 0 #7FB2E0'></b>" + esc(t.hl) + "</span>" : "") +
+        "<span class='btcs-acts'><button type='button' class='btcs-save'><svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 4v11m0 0l-4-4m4 4l4-4M5 19h14'/></svg>" + esc(t.save) + "</button>" +
+        "<a class='btcs-post' target='_blank' rel='noopener'><svg viewBox='0 0 24 24' aria-hidden='true'><path d='M4 4l16 16M20 4L4 20' /></svg>" + esc(t.post) + "</a></span>" + "</div>" +
         "<div class='btcs-scroll btcs-stats-wrap'><table class='btcs-stats'>" + COLS + "<thead></thead><tbody></tbody></table></div>" +
         "<div class='btcs-sec'><h3>" + esc(t.breakdownTitle) + "</h3></div>" +
         "<div class='btcs-scroll btcs-heat-wrap'><table class='btcs-heat'>" + COLS + "<thead></thead><tbody></tbody></table></div>" +
@@ -411,6 +426,8 @@
       // --- 統計パネル ---
       var cols = []; for (var mo = 1; mo <= 12; mo++) cols.push(mo); cols.push("annual");
       var samples = cols.map(sample);
+      lastSamples = samples;
+      updatePostLink();
       var means = samples.map(function (xs) { return mean(xs); });
       var meds = samples.map(function (xs) { return median(xs); });
       // ミニバーの目盛りは月の列だけで決める（年間列は別スケール）
@@ -488,6 +505,109 @@
       return "<div class='btcs-tile'><div class='btcs-tile-label'>" + esc(label) + "</div><div class='btcs-tile-main " +
         (v > 0 ? "up" : v < 0 ? "down" : "") + "'>" + main + "</div><div class='btcs-tile-note'>" + esc(note) + "</div></div>";
     }
+
+
+    // ---------- X向けの画像カード ----------
+    var lastSamples = null;
+    function condParts() {
+      var t = I18N[state.lang];
+      var range = state.start + t.yearSuffix + t.rangeSep + (state.end === "latest" ? t.latestShort : state.end + t.yearSuffix);
+      var cycle = state.phase === "all" ? t.allYears : t.phases[+state.phase];
+      return { range: range, cycle: cycle };
+    }
+    function updatePostLink() {
+      var a = root.querySelector(".btcs-post");
+      if (!a) return;
+      var t = I18N[state.lang];
+      a.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tpl(t.shareText, condParts())) + "&url=" + encodeURIComponent(PAGE_URL);
+    }
+    function drawCard() {
+      var t = I18N[state.lang], W = 1200, H = 675, S = 2;
+      var cv = document.createElement("canvas"); cv.width = W * S; cv.height = H * S;
+      var c = cv.getContext("2d"); c.scale(S, S);
+      var F = "'BIZ UDPGothic','Noto Sans JP','Hiragino Sans','Yu Gothic','PingFang SC','Malgun Gothic',sans-serif";
+      var NAVY = "#1E3A5F", INK = "#1F2933", MUTED = "#3E4C59", BLUE = "#2F6FAE", RED = "#B03A2E", GOLD = "#C9982F";
+      function text(str, x, y, size, color, weight, align) {
+        c.font = (weight || 400) + " " + size + "px " + F; c.fillStyle = color; c.textAlign = align || "left"; c.fillText(str, x, y);
+      }
+      c.fillStyle = "#FFFFFF"; c.fillRect(0, 0, W, H);
+      c.fillStyle = NAVY; c.fillRect(0, 0, W, 10);
+      var cond = condParts();
+      text("COCOSTA", 56, 60, 18, NAVY, 700);
+      text(t.title, 56, 112, 40, NAVY, 700);
+      text(tpl(t.cardCond, cond), 56, 152, 22, INK, 400);
+      text(t.cardLegend, 1144, 152, 18, MUTED, 400, "right");
+
+      var x0 = 56, colW = 1088 / 12, zeroY = 340, half = 105;
+      var meds = lastSamples.slice(0, 12).map(function (xs) { return median(xs); });
+      var wins = lastSamples.slice(0, 12).map(function (xs) {
+        return xs.length ? { p: xs.filter(function (x) { return x > 0; }).length / xs.length, w: xs.filter(function (x) { return x > 0; }).length, n: xs.length } : null;
+      });
+      var cap = Math.max(5, Math.max.apply(null, meds.map(function (v) { return v == null ? 0 : Math.abs(v); })));
+      var nextMo = nowMo ? nowMo % 12 + 1 : null;
+      for (var i = 0; i < 12; i++) {
+        var cx = x0 + colW * i + colW / 2, mo = i + 1;
+        if (mo === nowMo || mo === nextMo) {
+          c.fillStyle = mo === nowMo ? "#FFF6E0" : "#EAF2FA"; c.fillRect(x0 + colW * i + 3, 180, colW - 6, 410);
+          c.fillStyle = mo === nowMo ? GOLD : "#7FB2E0"; c.fillRect(x0 + colW * i + 3, 180, colW - 6, 4);
+        }
+      }
+      c.fillStyle = "#7B8794"; c.fillRect(x0, zeroY, 1088, 1.5);
+      for (i = 0; i < 12; i++) {
+        cx = x0 + colW * i + colW / 2;
+        var v = meds[i];
+        if (v != null) {
+          var h = Math.max(Math.abs(v) / cap * half, 2), y = v >= 0 ? zeroY - h : zeroY + 1.5;
+          c.fillStyle = v >= 0 ? BLUE : RED;
+          c.beginPath();
+          if (c.roundRect) c.roundRect(cx - 22, y, 44, h, v >= 0 ? [4, 4, 0, 0] : [0, 0, 4, 4]); else c.rect(cx - 22, y, 44, h);
+          c.fill();
+          text(fmt(v), cx, v >= 0 ? y - 10 : y + h + 26, 20, INK, 700, "center");
+        } else {
+          text("–", cx, zeroY - 10, 20, MUTED, 700, "center");
+        }
+        text(t.months[i], cx, 522, 20, NAVY, 700, "center");
+        var wr = wins[i];
+        text(wr ? Math.round(wr.p * 100) + "%" : "–", cx, 556, 22, wr && wr.p > 0.5 ? BLUE : wr && wr.p < 0.5 ? RED : INK, 700, "center");
+        if (wr) text(tpl(t.wl, { w: wr.w, l: wr.n - wr.w }), cx, 580, 15, MUTED, 400, "center");
+      }
+      c.fillStyle = "#D5DCE4"; c.fillRect(56, 612, 1088, 1);
+      var upd = data.updated_utc ? new Date(data.updated_utc) : new Date();
+      var d = upd.toLocaleDateString(t.locale, { timeZone: t.tz, year: "numeric", month: "short", day: "numeric" });
+      text("Bitstamp BTC/USD (UTC) · " + tpl(t.asOf, { d: d }), 56, 648, 16, MUTED, 400);
+      text(PAGE_URL.replace(/^https:\/\//, "").replace(/\/$/, ""), 1144, 648, 18, NAVY, 700, "right");
+      return cv;
+    }
+    function saveCard(btn) {
+      var t = I18N[state.lang];
+      var chars = t.title + t.cardLegend + tpl(t.cardCond, condParts()) + t.months.join("") + "COCOSTA0123456789+-–%.·" + t.wl + t.asOf;
+      var fontReady = document.fonts && document.fonts.load
+        ? Promise.all([document.fonts.load("700 20px 'BIZ UDPGothic'", chars), document.fonts.load("400 20px 'BIZ UDPGothic'", chars)]).catch(function () {})
+        : Promise.resolve();
+      btn.disabled = true;
+      fontReady.then(function () {
+        drawCard().toBlob(function (blob) {
+          btn.disabled = false;
+          if (!blob) return;
+          var name = "btc-monthly-returns-" + state.start + "-" + state.end + (state.phase === "all" ? "" : "-cycle" + state.phase) + ".png";
+          var file = null;
+          try { file = new File([blob], name, { type: "image/png" }); } catch (e) {}
+          var touch = window.matchMedia && window.matchMedia("(pointer:coarse)").matches;
+          // スマホは共有シート（Xアプリや写真に保存）、PCはダウンロード
+          if (touch && file && navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({ files: [file], text: tpl(t.shareText, condParts()) + " " + PAGE_URL }).catch(function () {});
+            return;
+          }
+          var url = URL.createObjectURL(blob), a = document.createElement("a");
+          a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+        }, "image/png");
+      });
+    }
+    root.addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest(".btcs-save");
+      if (b) saveCard(b);
+    });
 
     // --- ツールチップ（ヒートマップのセル） ---
     var tip = document.createElement("div"); tip.className = "btcs-tip"; tip.hidden = true;
