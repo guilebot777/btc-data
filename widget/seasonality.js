@@ -267,7 +267,9 @@
     if (v == null || isNaN(v)) return "–";
     // 読みやすさ優先で小数1桁。100%以上は整数にして列幅に収める（+186.76% → +187%）
     if (digits == null) digits = Math.abs(v) >= 100 ? 0 : 1;
-    return (v > 0 ? "+" : "") + v.toFixed(digits) + "%";
+    var txt = v.toFixed(digits);
+    if (+txt === 0) return (0).toFixed(digits) + "%"; // -0.0% を出さない
+    return (v > 0 ? "+" : "") + txt + "%";
   }
   function price(v) { return "$" + v.toLocaleString("en-US", { maximumFractionDigits: 2 }); }
   function tint(v, cap) {
