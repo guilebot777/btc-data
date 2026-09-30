@@ -28,6 +28,7 @@
       start: "開始年", end: "終了年", latest: "最新（確定分まで）", cycle: "サイクル", allYears: "すべての年",
       phases: ["半減期の年", "半減期の翌年", "半減期の2年後", "半減期の3年後"],
       presets: ["全期間", "直近4年", "直近8年", "今年と同じサイクル"],
+      hl: "金色の列 = 今月、青の列 = 来月",
       statsTitle: "選択期間の統計", breakdownTitle: "年別の内訳",
       year: "年", annual: "年間",
       rows: ["平均", "中央値", "勝率", "上昇月の平均", "下落月の平均", "最大", "最小", "サンプル数"],
@@ -51,6 +52,7 @@
       start: "From", end: "To", latest: "Latest (closed months)", cycle: "Cycle", allYears: "All years",
       phases: ["Halving year", "1 year after halving", "2 years after halving", "3 years after halving"],
       presets: ["All", "Last 4 years", "Last 8 years", "Same cycle as this year"],
+      hl: "Gold column = this month, blue column = next month",
       statsTitle: "Statistics for the selected period", breakdownTitle: "Breakdown by year",
       year: "Year", annual: "Annual",
       rows: ["Mean", "Median", "Win rate", "Avg. up month", "Avg. down month", "Best", "Worst", "Sample size"],
@@ -74,6 +76,7 @@
       start: "开始年", end: "结束年", latest: "最新（仅已收盘月份）", cycle: "周期", allYears: "全部年份",
       phases: ["减半当年", "减半后第1年", "减半后第2年", "减半后第3年"],
       presets: ["全部期间", "近4年", "近8年", "与今年同周期"],
+      hl: "金色列 = 本月，蓝色列 = 下月",
       statsTitle: "所选期间统计", breakdownTitle: "按年份明细",
       year: "年份", annual: "全年",
       rows: ["平均值", "中位数", "胜率", "上涨月平均", "下跌月平均", "最大", "最小", "样本数"],
@@ -97,6 +100,7 @@
       start: "開始年", end: "結束年", latest: "最新（僅已收盤月份）", cycle: "週期", allYears: "所有年份",
       phases: ["減半當年", "減半後第1年", "減半後第2年", "減半後第3年"],
       presets: ["全部期間", "近4年", "近8年", "與今年同週期"],
+      hl: "金色欄 = 本月，藍色欄 = 下個月",
       statsTitle: "所選期間統計", breakdownTitle: "各年度明細",
       year: "年份", annual: "全年",
       rows: ["平均值", "中位數", "勝率", "上漲月平均", "下跌月平均", "最大", "最小", "樣本數"],
@@ -120,6 +124,7 @@
       start: "시작 연도", end: "종료 연도", latest: "최신 (마감된 월까지)", cycle: "사이클", allYears: "전체 연도",
       phases: ["반감기 해", "반감기 1년 후", "반감기 2년 후", "반감기 3년 후"],
       presets: ["전체 기간", "최근 4년", "최근 8년", "올해와 같은 사이클"],
+      hl: "금색 열 = 이번 달, 파란색 열 = 다음 달",
       statsTitle: "선택 기간 통계", breakdownTitle: "연도별 상세",
       year: "연도", annual: "연간",
       rows: ["평균", "중앙값", "승률", "상승 월 평균", "하락 월 평균", "최대", "최소", "표본 수"],
@@ -143,6 +148,7 @@
       start: "Desde", end: "Hasta", latest: "Último (meses cerrados)", cycle: "Ciclo", allYears: "Todos los años",
       phases: ["Año del halving", "1 año tras el halving", "2 años tras el halving", "3 años tras el halving"],
       presets: ["Todo", "Últimos 4 años", "Últimos 8 años", "Mismo ciclo que este año"],
+      hl: "Columna dorada = este mes, columna azul = próximo mes",
       statsTitle: "Estadísticas del periodo seleccionado", breakdownTitle: "Detalle por año",
       year: "Año", annual: "Anual",
       rows: ["Media", "Mediana", "Meses al alza", "Media meses al alza", "Media meses a la baja", "Máximo", "Mínimo", "Muestra"],
@@ -199,7 +205,9 @@
     ".btcs button{font:inherit;font-size:16px;font-weight:700;min-height:44px;padding:6px 18px;border:1.5px solid var(--blue);border-radius:999px;background:#fff;color:var(--blue);cursor:pointer}",
     ".btcs button[aria-pressed=true]{background:var(--blue);color:#fff}",
     ".btcs button:focus-visible,.btcs select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}",
-    ".btcs .btcs-sec{margin:0 0 10px}",
+    ".btcs .btcs-sec{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;margin:0 0 10px}",
+    ".btcs .btcs-hl{font-size:15px;color:var(--muted)}",
+    ".btcs .btcs-hl b{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin:0 4px 0 0}",
     // 2つの表は同じ列幅（固定レイアウト + 同じ最小幅 + 同じ枠）で縦に揃える
     ".btcs .btcs-scroll{overflow-x:auto;border:1px solid transparent;border-radius:8px}",
     ".btcs table{table-layout:fixed;border-collapse:separate;border-spacing:2px;width:100%;min-width:1100px;font-variant-numeric:tabular-nums}",
@@ -218,6 +226,8 @@
     ".btcs .btcs-stats tbody tr.btcs-minor td,.btcs .btcs-stats tbody tr.btcs-minor th{font-size:15px;font-weight:400;color:var(--muted)}",
     ".btcs .btcs-stats td.btcs-now{background:#FFF6E0}",
     ".btcs .btcs-stats thead th.btcs-now{box-shadow:inset 0 -4px 0 var(--gold)}",
+    ".btcs .btcs-stats td.btcs-next{background:#EAF2FA}",
+    ".btcs .btcs-stats thead th.btcs-next{box-shadow:inset 0 -4px 0 #7FB2E0}",
     ".btcs .btcs-bar,.btcs .btcs-meter{display:block;position:relative;height:7px;margin:7px auto 0;width:84%;background:#E4E9EF;border-radius:4px}",
     ".btcs .btcs-bar::after,.btcs .btcs-meter::after{content:'';position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;background:#7B8794}",
     ".btcs .btcs-bar i,.btcs .btcs-meter i{position:absolute;top:0;bottom:0;border-radius:4px}",
@@ -277,6 +287,8 @@
     for (var y = maxYear; y >= FIRST_YEAR; y--) years.push(y);
     var lastFullYear = cells[maxYear + "-12"] && !cells[maxYear + "-12"].partial ? maxYear : maxYear - 1;
     var nowMo = partialKey ? +partialKey.split("-")[1] : null;
+    var nextMoCol = nowMo ? nowMo % 12 + 1 : null;
+    function hlClass(col) { return col === nowMo ? " class='btcs-now'" : col === nextMoCol ? " class='btcs-next'" : ""; }
 
     function annual(y) {
       var jan = cells[y + "-1"], last = null;
@@ -329,7 +341,8 @@
         "<label class='btcs-field' for='btcs-end'>" + esc(t.end) + " <select id='btcs-end'></select></label>" +
         "<label class='btcs-field' for='btcs-phase'>" + esc(t.cycle) + " <select id='btcs-phase'></select></label>" +
         "<div class='btcs-btns' role='group'></div></div>" +
-        "<div class='btcs-sec'><h3>" + esc(t.statsTitle) + "</h3></div>" +
+        "<div class='btcs-sec'><h3>" + esc(t.statsTitle) + "</h3>" +
+        (nowMo ? "<span class='btcs-hl'><b style='background:#FFF6E0;box-shadow:inset 0 -3px 0 var(--gold)'></b><b style='background:#EAF2FA;box-shadow:inset 0 -3px 0 #7FB2E0'></b>" + esc(t.hl) + "</span>" : "") + "</div>" +
         "<div class='btcs-scroll btcs-stats-wrap'><table class='btcs-stats'>" + COLS + "<thead></thead><tbody></tbody></table></div>" +
         "<div class='btcs-sec'><h3>" + esc(t.breakdownTitle) + "</h3></div>" +
         "<div class='btcs-scroll btcs-heat-wrap'><table class='btcs-heat'>" + COLS + "<thead></thead><tbody></tbody></table></div>" +
@@ -372,7 +385,7 @@
       });
 
       var monthHead = t.months.map(function (m, i) {
-        return "<th" + (i + 1 === nowMo ? " class='btcs-now'" : "") + ">" + m + "</th>";
+        return "<th" + hlClass(i + 1) + ">" + m + "</th>";
       }).join("");
       $(".btcs-stats thead").innerHTML = "<tr><th class='btcs-y'></th>" + monthHead + "<th>" + esc(t.annual) + "</th></tr>";
       $(".btcs-heat thead").innerHTML = "<tr><th class='btcs-y'>" + esc(t.year) + "</th>" +
@@ -412,7 +425,7 @@
         var side = v >= 0 ? "left:50%;background:var(--blue)" : "right:50%;background:var(--red)";
         return "<span class='btcs-bar' aria-hidden='true'><i style='" + side + ";width:" + w.toFixed(1) + "%'></i></span>";
       }
-      function td(i, inner) { return "<td" + (cols[i] === nowMo ? " class='btcs-now'" : "") + ">" + inner + "</td>"; }
+      function td(i, inner) { return "<td" + hlClass(cols[i]) + ">" + inner + "</td>"; }
       function row(label, cls, fn) {
         return "<tr class='" + cls + "'><th class='btcs-y'>" + esc(label) + "</th>" +
           samples.map(function (xs, i) { return td(i, xs.length ? fn(xs, i) : "–"); }).join("") + "</tr>";
