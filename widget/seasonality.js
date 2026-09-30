@@ -153,6 +153,7 @@
       loading: "Cargando datos…", error: "No se pudieron cargar los datos. Vuelve a cargar la página más tarde."
     }
   };
+  var COLS = "<colgroup><col class='btcs-cy'>" + new Array(13).join("<col>") + "<col class='btcs-ca'></colgroup>";
   var LANGS = ["ja", "en", "zh-Hans", "zh-Hant", "ko", "es"];
 
   function pickLang(root) {
@@ -169,83 +170,87 @@
 
   // ---------- スタイル ----------
   var CSS = [
-    ".btcs{--navy:#1E3A5F;--blue:#3B82C4;--red:#C0392B;--gold:#D4A849;--ink:#1A1A2E;--muted:#4A5568;--line:#E2E8F0;--soft:#F5F7FA;--bg:#FFFFFF;",
-    "font-family:'Noto Sans JP','Hiragino Sans','Yu Gothic','PingFang SC','Microsoft YaHei','Malgun Gothic',sans-serif;color:var(--ink);background:var(--bg);font-size:14px;line-height:1.5;max-width:1200px;margin:0 auto}",
+    // 読みやすさ優先: UDフォント、本文17px、濃い文字色（純黒は避ける）、薄いグレー文字は使わない
+    ".btcs{--navy:#1E3A5F;--blue:#2F6FAE;--red:#B03A2E;--gold:#C9982F;--ink:#1F2933;--muted:#3E4C59;--line:#D5DCE4;--soft:#F3F5F8;--bg:#FFFFFF;",
+    "--ui:'BIZ UDPGothic','Noto Sans JP','Hiragino Sans','Yu Gothic','PingFang SC','Microsoft YaHei','Malgun Gothic',sans-serif;",
+    "--num:var(--ui);",
+    "font-family:var(--ui);color:var(--ink);background:var(--bg);font-size:17px;line-height:1.6;max-width:1400px;margin:0 auto}",
     ".btcs *{box-sizing:border-box}",
-    ".btcs .btcs-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px 16px;margin-bottom:16px}",
+    ".btcs .btcs-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:10px 20px;margin-bottom:20px}",
     ".btcs .btcs-head>div{min-width:0;flex:1 1 320px}",
-    ".btcs .btcs-brand{display:inline-block;font-size:13px;font-weight:700;color:var(--navy);letter-spacing:.08em;margin:0 0 14px;text-decoration:none}",
+    ".btcs .btcs-brand{display:inline-block;font-size:15px;font-weight:700;color:var(--navy);letter-spacing:.08em;margin:0 0 14px;text-decoration:none}",
     ".btcs .btcs-brand:hover{text-decoration:underline}",
-    ".btcs h1{font-size:clamp(24px,4vw,34px);line-height:1.3;font-weight:800;color:var(--navy);margin:0 0 8px;text-wrap:balance}",
-    ".btcs h2{font-size:22px;font-weight:700;color:var(--navy);margin:0 0 4px;text-wrap:balance}",
-    ".btcs h3{font-size:15px;font-weight:700;color:var(--navy);margin:0;letter-spacing:.02em}",
-    ".btcs .btcs-sub{color:var(--muted);font-size:13px;margin:0}",
-    ".btcs .btcs-lang{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px}",
-    ".btcs .btcs-lang svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6}",
-    ".btcs .btcs-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:16px}",
-    ".btcs .btcs-tile{background:var(--soft);border-radius:8px;padding:14px 16px}",
-    ".btcs .btcs-tile-label{font-size:12px;color:var(--muted);letter-spacing:.04em}",
-    ".btcs .btcs-tile-main{font-size:28px;font-weight:800;letter-spacing:.03em;font-variant-numeric:tabular-nums;color:var(--navy)}",
+    ".btcs h1{font-size:clamp(28px,4vw,38px);line-height:1.3;font-weight:700;color:var(--navy);margin:0 0 10px;text-wrap:balance}",
+    ".btcs h2{font-size:26px;font-weight:700;color:var(--navy);margin:0 0 6px;text-wrap:balance}",
+    ".btcs h3{font-size:20px;font-weight:700;color:var(--navy);margin:0}",
+    ".btcs .btcs-sub{color:var(--muted);font-size:17px;margin:0}",
+    ".btcs .btcs-lang{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:16px}",
+    ".btcs .btcs-lang svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6}",
+    ".btcs .btcs-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:20px}",
+    ".btcs .btcs-tile{background:var(--soft);border-radius:8px;padding:18px 20px}",
+    ".btcs .btcs-tile-label{font-size:16px;color:var(--muted);font-weight:700}",
+    ".btcs .btcs-tile-main{font-family:var(--num);font-size:36px;font-weight:700;color:var(--navy);line-height:1.3;margin:2px 0}",
     ".btcs .btcs-tile-main.up{color:var(--blue)}.btcs .btcs-tile-main.down{color:var(--red)}",
-    ".btcs .btcs-tile-note{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}",
-    ".btcs .btcs-controls{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-bottom:16px}",
-    ".btcs .btcs-field{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}",
-    ".btcs select{font:inherit;font-size:14px;padding:5px 8px;border:1px solid #CBD5E0;border-radius:6px;background:#fff;color:var(--ink);max-width:100%}",
-    ".btcs .btcs-btns{display:flex;flex-wrap:wrap;gap:6px}",
-    ".btcs button{font:inherit;font-size:13px;padding:5px 12px;border:1px solid var(--blue);border-radius:999px;background:#fff;color:var(--blue);cursor:pointer}",
+    ".btcs .btcs-tile-note{font-size:16px;color:var(--ink)}",
+    ".btcs .btcs-controls{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-bottom:24px}",
+    ".btcs .btcs-field{display:flex;flex-wrap:wrap;max-width:100%;min-width:0;align-items:center;gap:8px;font-size:16px;color:var(--ink);font-weight:700}",
+    ".btcs select{font:inherit;font-weight:400;font-size:17px;min-height:44px;padding:6px 10px;border:1.5px solid #9AA5B1;border-radius:6px;background:#fff;color:var(--ink);max-width:100%}",
+    ".btcs .btcs-btns{display:flex;flex-wrap:wrap;gap:8px}",
+    ".btcs button{font:inherit;font-size:16px;font-weight:700;min-height:44px;padding:6px 18px;border:1.5px solid var(--blue);border-radius:999px;background:#fff;color:var(--blue);cursor:pointer}",
     ".btcs button[aria-pressed=true]{background:var(--blue);color:#fff}",
-    ".btcs button:focus-visible,.btcs select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}",
-    ".btcs .btcs-sec{display:flex;align-items:baseline;gap:12px;margin:0 0 8px}",
-    ".btcs .btcs-scroll{overflow-x:auto;border-radius:8px}",
-    ".btcs table{border-collapse:separate;width:100%;min-width:980px;font-variant-numeric:tabular-nums}",
-    ".btcs th,.btcs td{text-align:center;white-space:nowrap}",
-    ".btcs th.btcs-y{position:sticky;left:0;z-index:1;text-align:left}",
-    // 統計パネル: ネイビー見出し + 白地 + ミニバー
-    ".btcs .btcs-stats-wrap{border:1px solid var(--navy);margin-bottom:28px}",
-    ".btcs .btcs-stats{border-spacing:0}",
-    ".btcs .btcs-stats thead th{background:var(--navy);color:#fff;font-weight:500;font-size:13px;padding:8px 4px}",
+    ".btcs button:focus-visible,.btcs select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}",
+    ".btcs .btcs-sec{margin:0 0 10px}",
+    // 2つの表は同じ列幅（固定レイアウト + 同じ最小幅 + 同じ枠）で縦に揃える
+    ".btcs .btcs-scroll{overflow-x:auto;border:1px solid transparent;border-radius:8px}",
+    ".btcs table{table-layout:fixed;border-collapse:separate;border-spacing:2px;width:100%;min-width:1100px;font-variant-numeric:tabular-nums}",
+    ".btcs col.btcs-cy{width:112px}",
+    ".btcs col.btcs-ca{width:96px}",
+    ".btcs th,.btcs td{text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
+    ".btcs th.btcs-y{position:sticky;left:0;z-index:1;text-align:left;white-space:normal}",
+    ".btcs td{font-family:var(--num)}",
+    // 統計パネル: 紺の見出し帯 + 白地 + ミニバー
+    ".btcs .btcs-stats-wrap{border-color:var(--navy);margin-bottom:36px}",
+    ".btcs .btcs-stats thead th{background:var(--navy);color:#fff;font-weight:700;font-size:16px;padding:10px 4px;border-radius:3px}",
     ".btcs .btcs-stats thead th.btcs-y{padding-left:12px}",
-    ".btcs .btcs-stats tbody th.btcs-y{background:#fff;color:var(--navy);font-weight:700;font-size:12px;padding:8px 12px;min-width:120px}",
-    ".btcs .btcs-stats tbody td{background:#fff;font-size:13px;padding:8px 6px;border-top:1px solid var(--line)}",
-    ".btcs .btcs-stats tbody th{border-top:1px solid var(--line)}",
-    ".btcs .btcs-stats tbody tr.btcs-key td{font-weight:700;font-size:14px}",
-    ".btcs .btcs-stats tbody tr.btcs-minor td,.btcs .btcs-stats tbody tr.btcs-minor th{color:var(--muted);font-weight:400;font-size:12px}",
-    ".btcs .btcs-stats td.btcs-now{background:#FFF8E6}",
-    ".btcs .btcs-stats thead th.btcs-now{box-shadow:inset 0 -3px 0 var(--gold)}",
-    ".btcs .btcs-bar{display:block;position:relative;height:5px;margin:5px auto 0;width:84%;background:var(--soft);border-radius:3px}",
-    ".btcs .btcs-bar::after{content:'';position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:#A0AEC0}",
-    ".btcs .btcs-bar i{position:absolute;top:0;bottom:0;border-radius:3px}",
-    ".btcs .btcs-meter{display:block;position:relative;height:5px;margin:5px auto 0;width:84%;background:var(--soft);border-radius:3px}",
-    ".btcs .btcs-meter i{position:absolute;left:0;top:0;bottom:0;border-radius:3px}",
-    ".btcs .btcs-meter::after{content:'';position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:#A0AEC0}",
-    ".btcs .btcs-wl{display:block;font-size:11px;font-weight:400;color:var(--muted)}",
+    ".btcs .btcs-stats tbody th.btcs-y{background:#fff;color:var(--navy);font-weight:700;font-size:15px;padding:10px 8px;line-height:1.3}",
+    ".btcs .btcs-stats tbody td{background:#fff;font-size:16px;padding:10px 2px;box-shadow:0 -1px 0 var(--line)}",
+    ".btcs .btcs-stats tbody tr.btcs-key td{font-weight:700;font-size:17px}",
+    ".btcs .btcs-stats tbody tr.btcs-minor td,.btcs .btcs-stats tbody tr.btcs-minor th{font-size:15px;font-weight:400;color:var(--muted)}",
+    ".btcs .btcs-stats td.btcs-now{background:#FFF6E0}",
+    ".btcs .btcs-stats thead th.btcs-now{box-shadow:inset 0 -4px 0 var(--gold)}",
+    ".btcs .btcs-bar,.btcs .btcs-meter{display:block;position:relative;height:7px;margin:7px auto 0;width:84%;background:#E4E9EF;border-radius:4px}",
+    ".btcs .btcs-bar::after,.btcs .btcs-meter::after{content:'';position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;background:#7B8794}",
+    ".btcs .btcs-bar i,.btcs .btcs-meter i{position:absolute;top:0;bottom:0;border-radius:4px}",
+    ".btcs .btcs-meter i{left:0}",
+    ".btcs .btcs-wl{display:block;font-family:var(--ui);font-size:14px;font-weight:400;color:var(--muted)}",
     // ヒートマップ
-    ".btcs .btcs-heat{border-spacing:2px}",
-    ".btcs .btcs-heat th,.btcs .btcs-heat td{padding:7px 4px;font-size:13px;border-radius:3px}",
-    ".btcs .btcs-heat thead th{color:var(--muted);font-weight:500;background:var(--bg)}",
-    ".btcs .btcs-heat th.btcs-y{background:var(--bg);color:var(--navy);font-weight:700;min-width:64px;padding-left:8px}",
-    ".btcs .btcs-heat tr.btcs-out td{opacity:.28}",
-    ".btcs .btcs-heat tr.btcs-out th.btcs-y{color:#A0AEC0;font-weight:500}",
+    ".btcs .btcs-heat th,.btcs .btcs-heat td{padding:9px 2px;font-size:16px;border-radius:3px}",
+    ".btcs .btcs-heat thead th{color:var(--ink);font-weight:700;background:var(--bg)}",
+    ".btcs .btcs-heat th.btcs-y{background:var(--bg);color:var(--navy);font-weight:700;padding-left:12px}",
+    ".btcs .btcs-heat tr.btcs-out td{opacity:.4}",
+    ".btcs .btcs-heat tr.btcs-out th.btcs-y{color:#7B8794;font-weight:400}",
     ".btcs td.btcs-partial{outline:2px dashed var(--gold);outline-offset:-2px}",
-    ".btcs td small{display:block;font-size:10px;color:var(--muted);line-height:1}",
+    ".btcs td small{display:block;font-family:var(--ui);font-size:12px;color:var(--muted);line-height:1.1}",
     ".btcs td.btcs-annual{font-weight:700}",
-    ".btcs .btcs-legend{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:10px;font-size:12px;color:var(--muted)}",
-    ".btcs .btcs-ramp{display:inline-flex;align-items:center;gap:6px}",
-    ".btcs .btcs-ramp i{display:inline-block;width:120px;height:10px;border-radius:2px;background:linear-gradient(90deg,rgba(192,57,43,.63),rgba(192,57,43,.08) 45%,#fff 50%,rgba(59,130,196,.08) 55%,rgba(59,130,196,.63))}",
-    ".btcs .btcs-foot{margin-top:12px;font-size:12px;color:var(--muted)}",
-    ".btcs .btcs-tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:12px;padding:6px 9px;border-radius:6px;z-index:10;font-variant-numeric:tabular-nums;line-height:1.5}",
-    "@media (max-width:600px){.btcs h2{font-size:19px}.btcs .btcs-tile-main{font-size:24px}}"
+    ".btcs .btcs-legend{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;margin-top:12px;font-size:15px;color:var(--muted)}",
+    ".btcs .btcs-ramp{display:inline-flex;align-items:center;gap:8px}",
+    ".btcs .btcs-ramp i{display:inline-block;width:140px;height:12px;border-radius:2px;background:linear-gradient(90deg,rgba(176,58,46,.63),rgba(176,58,46,.08) 45%,#fff 50%,rgba(47,111,174,.08) 55%,rgba(47,111,174,.63))}",
+    ".btcs .btcs-foot{margin-top:14px;font-size:15px;color:var(--muted)}",
+    ".btcs .btcs-tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:15px;padding:8px 11px;border-radius:6px;z-index:10;line-height:1.5}",
+    "@media (max-width:600px){.btcs h1{font-size:28px}.btcs h2{font-size:22px}.btcs .btcs-tile-main{font-size:30px}.btcs col.btcs-cy{width:104px}}"
   ].join("\n");
 
   function fmt(v, digits) {
     if (v == null || isNaN(v)) return "–";
-    return (v > 0 ? "+" : "") + v.toFixed(digits == null ? 2 : digits) + "%";
+    // 読みやすさ優先で小数1桁。100%以上は整数にして列幅に収める（+186.76% → +187%）
+    if (digits == null) digits = Math.abs(v) >= 100 ? 0 : 1;
+    return (v > 0 ? "+" : "") + v.toFixed(digits) + "%";
   }
   function price(v) { return "$" + v.toLocaleString("en-US", { maximumFractionDigits: 2 }); }
   function tint(v, cap) {
     if (v == null || isNaN(v) || v === 0) return "";
     var a = Math.min(Math.abs(v) / (cap || 30), 1) * 0.55 + 0.08;
-    return v > 0 ? "rgba(59,130,196," + a.toFixed(3) + ")" : "rgba(192,57,43," + a.toFixed(3) + ")";
+    return v > 0 ? "rgba(47,111,174," + a.toFixed(3) + ")" : "rgba(176,58,46," + a.toFixed(3) + ")";
   }
   function median(xs) {
     var s = xs.slice().sort(function (a, b) { return a - b; });
@@ -325,16 +330,16 @@
         "<label class='btcs-field' for='btcs-phase'>" + esc(t.cycle) + " <select id='btcs-phase'></select></label>" +
         "<div class='btcs-btns' role='group'></div></div>" +
         "<div class='btcs-sec'><h3>" + esc(t.statsTitle) + "</h3></div>" +
-        "<div class='btcs-scroll btcs-stats-wrap'><table class='btcs-stats'><thead></thead><tbody></tbody></table></div>" +
+        "<div class='btcs-scroll btcs-stats-wrap'><table class='btcs-stats'>" + COLS + "<thead></thead><tbody></tbody></table></div>" +
         "<div class='btcs-sec'><h3>" + esc(t.breakdownTitle) + "</h3></div>" +
-        "<div class='btcs-scroll'><table class='btcs-heat'><thead></thead><tbody></tbody></table></div>" +
+        "<div class='btcs-scroll btcs-heat-wrap'><table class='btcs-heat'>" + COLS + "<thead></thead><tbody></tbody></table></div>" +
         "<div class='btcs-legend'><span class='btcs-ramp'>≤ -30% <i></i> ≥ +30%</span>" +
         "<span>" + esc(t.legendPartial) + "</span><span>" + esc(t.legendOut) + "</span></div>" +
         "<p class='btcs-foot'></p>";
 
       var $ = function (s) { return root.querySelector(s); };
       var startSel = $("#btcs-start"), endSel = $("#btcs-end"), phaseSel = $("#btcs-phase");
-      years.slice().reverse().forEach(function (y) { startSel.add(new Option(y + t.yearSuffix, y)); });
+      years.forEach(function (y) { startSel.add(new Option(y + t.yearSuffix, y)); });
       endSel.add(new Option(t.latest, "latest"));
       years.forEach(function (y) { endSel.add(new Option(y + t.yearSuffix, y)); });
       phaseSel.add(new Option(t.allYears, "all"));
@@ -352,6 +357,14 @@
       startSel.addEventListener("change", function () { state.start = +startSel.value; render(); });
       endSel.addEventListener("change", function () { state.end = endSel.value === "latest" ? "latest" : +endSel.value; render(); });
       phaseSel.addEventListener("change", function () { state.phase = phaseSel.value; render(); });
+      // 横スクロール時も2つの表の列がずれないよう、スクロール位置を同期する
+      var sw = $(".btcs-stats-wrap"), hw = $(".btcs-heat-wrap"), syncing = false;
+      [[sw, hw], [hw, sw]].forEach(function (pair) {
+        pair[0].addEventListener("scroll", function () {
+          if (syncing) return; syncing = true; pair[1].scrollLeft = pair[0].scrollLeft;
+          requestAnimationFrame(function () { syncing = false; });
+        });
+      });
       $("#btcs-lang").addEventListener("change", function (e) {
         state.lang = e.target.value;
         try { localStorage.setItem(STORE_KEY, state.lang); } catch (err) {}
